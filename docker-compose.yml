@@ -1,0 +1,44 @@
+services:
+  db:
+    image: postgres:15
+    container_name: workflow_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: workflow
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: workflow_api
+    restart: always
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/workflow
+      TESTING: "0"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app
+    command: >
+        sh -c "sleep 3 &&
+          uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+  frontend:
+    build:
+      context: ./frontend
+    container_name: workflow_frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      VITE_API_BASE_URL: http://localhost:8000/
+    depends_on:
+      - api
+volumes:
+  pgdata:
