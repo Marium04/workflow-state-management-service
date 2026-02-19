@@ -10,8 +10,8 @@ A **FastAPI** service for managing workflow items with state transitions, versio
 * Status-based workflow with allowed transitions
 * Optimistic concurrency control (ETag / versioning)
 * PostgreSQL backend
-* Dockerized API + Database
-* Optional frontend dashboard support
+* Dockerized API + Database + Frontend
+* Frontend dashboard
 
 ---
 
@@ -19,8 +19,8 @@ A **FastAPI** service for managing workflow items with state transitions, versio
 
 * **Backend:** FastAPI, SQLAlchemy, Pydantic
 * **Database:** PostgreSQL
-* **Docker:** API + Database containers
-* **Frontend:** Optional dashboard (React / Tailwind)
+* **Docker:** API + Database containers + Frontend
+* **Frontend:** Dashboard (React / Tailwind)
 
 ---
 
@@ -43,6 +43,13 @@ cd workflow-state-management-service
 ```
 
 2. Build and start the containers:
+
+```bash
+docker-compose build
+docker-compose up -d
+docker ps
+```
+or 
 
 ```bash
 docker-compose up --build
